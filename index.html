@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta property="og:type" content="website">
@@ -113,6 +113,21 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
@@ -148,7 +163,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/26/stm32%E5%A4%96%E9%83%A8%E6%99%B6%E6%8C%AF%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/strong_doge.jpg">
       <meta itemprop="name" content="zzg">
       <meta itemprop="description" content="">
     </span>
@@ -176,7 +191,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-03 00:27:22" itemprop="dateModified" datetime="2023-04-03T00:27:22+08:00">2023-04-03</time>
+                <time title="修改时间：2023-05-14 22:24:43" itemprop="dateModified" datetime="2023-05-14T22:24:43+08:00">2023-05-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -199,12 +214,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="test"><a href="#test" class="headerlink" title="test"></a>test</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>&emsp;&emsp;在可靠性需求中，需要考虑在外部晶振失效的情况下，能够将系统的晶振源切换为内部的振荡器，让系统至少能够维持能够发出晶振失效告警的状态，如果能让系统保持正常系统正常运行那是最好。</p>
+          <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>&emsp;&emsp;在可靠性需求中，需要考虑在外部晶振失效的情况下，能够将系统的晶振源切换为内部的振荡器，让系统至少能够维持能够发出晶振失效告警的状态，如果能让系统保持正常系统正常运行那是最好。</p>
 <h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>&emsp;&emsp;在stm32中，有Clock security system (CSS)的机制，当外部晶振出现问题，比如晶振停振、短时间内出现大的频率偏差就会触发(fae说的，没有找到具体的触发机制文档)，当触发时会系统时钟源会从HSE或者HSE为源的PLL切换到HSI，并进入NMI.(non-maskable interrupt)中断。</p>
-<p><img src="/2022/06/26/stm32%E5%A4%96%E9%83%A8%E6%99%B6%E6%8C%AF%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B/cubemx1.PNG"><br>&emsp;&emsp;当在cubemx中配置Enable CSS后，会在NMI中断中跳转到HAL_RCC_NMI_IRQHandler函数中，可以在该函数中进行时钟的重新配置，将PLL Source Mux的源调整为HSI，并将M\N\P的系数进行调整，使系统时钟与之前保持一致。之后系统会以内部时钟的形式继续运行。经过实测can通讯串口通讯不会受到影响，切换会花费多少时间还需测试。</p>
-<p><img src="/2022/06/26/stm32%E5%A4%96%E9%83%A8%E6%99%B6%E6%8C%AF%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B/css_datasheet.jpg"></p>
-<p><img src="/2022/06/26/stm32%E5%A4%96%E9%83%A8%E6%99%B6%E6%8C%AF%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B/css_datasheet2.PNG"></p>
-<h2 id="切换时间测量"><a href="#切换时间测量" class="headerlink" title="切换时间测量"></a>切换时间测量</h2><p>&emsp;&emsp;测量切换时间可以使用stm32的MCO(microcontroller clock output)功能，将PLL时钟输出到引脚上，测量该引脚时钟消失的时间就可以得到切换时间。<br>&emsp;&emsp;实际操作时，示波器没法在时钟消失的时候进行触发(频率触发没搞明白用法)，配置一个GPIO为低电平，在NMI的中断函数中改为高电平，通过上升沿触发的方式来触发示波器。<br><img src="/2022/06/26/stm32%E5%A4%96%E9%83%A8%E6%99%B6%E6%8C%AF%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B/scope_4.bmp"><br>从图中可以看出切换时间约为128us的时间。</p>
+<p><img src="../images/stm32%E5%A4%96%E9%83%A8%E6%99%B6%E6%8C%AF%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B/cubemx1.PNG"><br>&emsp;&emsp;当在cubemx中配置Enable CSS后，会在NMI中断中跳转到HAL_RCC_NMI_IRQHandler函数中，可以在该函数中进行时钟的重新配置，将PLL Source Mux的源调整为HSI，并将M\N\P的系数进行调整，使系统时钟与之前保持一致。之后系统会以内部时钟的形式继续运行。经过实测can通讯串口通讯不会受到影响，切换会花费多少时间还需测试。</p>
+<p><img src="../images/stm32%E5%A4%96%E9%83%A8%E6%99%B6%E6%8C%AF%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B/css_datasheet.jpg"></p>
+<p><img src="../images/stm32%E5%A4%96%E9%83%A8%E6%99%B6%E6%8C%AF%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B/css_datasheet2.PNG"></p>
+<h2 id="切换时间测量"><a href="#切换时间测量" class="headerlink" title="切换时间测量"></a>切换时间测量</h2><p>&emsp;&emsp;测量切换时间可以使用stm32的MCO(microcontroller clock output)功能，将PLL时钟输出到引脚上，测量该引脚时钟消失的时间就可以得到切换时间。<br>&emsp;&emsp;实际操作时，示波器没法在时钟消失的时候进行触发(频率触发没搞明白用法)，配置一个GPIO为低电平，在NMI的中断函数中改为高电平，通过上升沿触发的方式来触发示波器。<br><img src="../images/stm32%E5%A4%96%E9%83%A8%E6%99%B6%E6%8C%AF%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B/scope_4.bmp"><br>从图中可以看出切换时间约为128us的时间。</p>
 
       
     </div>
@@ -227,7 +242,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2019/07/02/C-%E6%8F%90%E5%8F%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E6%95%B0%E5%AD%97-strtok-s%E7%9A%84%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/strong_doge.jpg">
       <meta itemprop="name" content="zzg">
       <meta itemprop="description" content="">
     </span>
@@ -313,7 +328,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2019/06/30/%E6%A0%88%E7%9A%84%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/strong_doge.jpg">
       <meta itemprop="name" content="zzg">
       <meta itemprop="description" content="">
     </span>
@@ -396,7 +411,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/07/CVTE2019%E5%B5%8C%E5%85%A5%E5%BC%8F%E8%BD%AF%E4%BB%B6%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AF%95%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/strong_doge.jpg">
       <meta itemprop="name" content="zzg">
       <meta itemprop="description" content="">
     </span>
@@ -500,7 +515,7 @@ int main()
     <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/03/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/strong_doge.jpg">
       <meta itemprop="name" content="zzg">
       <meta itemprop="description" content="">
     </span>
@@ -616,6 +631,8 @@ int main()
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zzg"
+      src="/images/strong_doge.jpg">
   <p class="site-author-name" itemprop="name">zzg</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -630,6 +647,7 @@ int main()
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
+          
         <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
@@ -660,14 +678,14 @@ int main()
 
 <div class="copyright">
   
-  &copy; 
+  &copy; 2019 – 
   <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">zzg</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
         
@@ -693,7 +711,7 @@ int main()
 <script src="/js/motion.js"></script>
 
 
-<script src="/js/schemes/muse.js"></script>
+<script src="/js/schemes/pisces.js"></script>
 
 
 <script src="/js/next-boot.js"></script>
