@@ -160,6 +160,104 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/14/%E7%94%A8samba%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/strong_doge.jpg">
+      <meta itemprop="name" content="zzg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dog house">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/14/%E7%94%A8samba%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91/" class="post-title-link" itemprop="url">用samba搭建私有云</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-14 22:31:02" itemprop="dateCreated datePublished" datetime="2023-05-14T22:31:02+08:00">2023-05-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-15 23:59:11" itemprop="dateModified" datetime="2023-05-15T23:59:11+08:00">2023-05-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8A%98%E8%85%BE/" itemprop="url" rel="index"><span itemprop="name">服务器折腾</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="用samba搭建私有云"><a href="#用samba搭建私有云" class="headerlink" title="用samba搭建私有云"></a>用samba搭建私有云</h1><h2 id="1、在ubuntu上安装samba"><a href="#1、在ubuntu上安装samba" class="headerlink" title="1、在ubuntu上安装samba"></a>1、在ubuntu上安装samba</h2><p><code>sudo apt-get install samba samba-common</code></p>
+<h2 id="2、修改samba配置文件"><a href="#2、修改samba配置文件" class="headerlink" title="2、修改samba配置文件"></a>2、修改samba配置文件</h2><p><code>sudo vim /etc/samba/smb.conf </code><br>在最下方添加</p>
+<pre>
+[share]
+comment = share folder
+browseable = yes
+path = /home/abc/data #需要共享的路径
+create mask = 0755
+directory mask = 0755  
+valid users = abc   #用户名称
+force user = abc
+force group = abc
+public = yes
+available = yes
+writable = yes </pre>
+
+<p>如果要从外网访问，则要修改端口，（运营商一般默认关闭445端口）</p>
+<p>在[global]标签下增加下面的语句，端口号为你想设置的端口<br><code>smb ports = 端口号</code></p>
+<h2 id="3、给共享目录添加权限"><a href="#3、给共享目录添加权限" class="headerlink" title="3、给共享目录添加权限"></a>3、给共享目录添加权限</h2><p><code>sudo chmod 777 /home/abc/data</code></p>
+<h2 id="4、添加用户并设置访问密码"><a href="#4、添加用户并设置访问密码" class="headerlink" title="4、添加用户并设置访问密码"></a>4、添加用户并设置访问密码</h2><p><code>sudo smbpasswd -a abc</code></p>
+<h2 id="5、重启samba服务器"><a href="#5、重启samba服务器" class="headerlink" title="5、重启samba服务器"></a>5、重启samba服务器</h2><p><code>sudo service smbd restart</code></p>
+<p>如果没有修改端口号，则已经可以在局域网内访问了<br>在windows端打开运行 win+R<br>输入双反斜杠加IP或者域名就可以访问<br><code>\\192.168.1.11</code></p>
+<h2 id="6、windows端口转发设置"><a href="#6、windows端口转发设置" class="headerlink" title="6、windows端口转发设置"></a>6、windows端口转发设置</h2><p>关闭占用445端口的应用<br><code>sc config LanmanServer start= disabled</code><br><code>net stop LanmanServer</code><br>开启ip helper服务<br><code>sc config iphlpsvc start= auto</code><br>设置转发<br><code>netsh interface portproxy add v4tov6 listenport=445 listenaddress=127.0.0.1 connectport=替换为端口号 connectaddress=替换为动态域名</code><br>因为我的域名是ipv6的解析，所以用v4tov6<br>重启电脑后生效。</p>
+<h2 id="7、windows下通过访问共享文件夹"><a href="#7、windows下通过访问共享文件夹" class="headerlink" title="7、windows下通过访问共享文件夹"></a>7、windows下通过访问共享文件夹</h2><p>注意，此时进行了端口转发，所以不是使用smb服务器的地址！<br><code>\\127.0.0.1</code><br>在输入用户名和访问密码后即可登录。</p>
+<h2 id="8、ios端访问"><a href="#8、ios端访问" class="headerlink" title="8、ios端访问"></a>8、ios端访问</h2><p>&emsp;&emsp;用系统自带的服务器连接工具不能指定端口，需要借助第三方软件ES文件浏览器，在新建中选择SMB，然后输入域名、端口、用户名密码就可以访问。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/26/stm32%E5%A4%96%E9%83%A8%E6%99%B6%E6%8C%AF%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -641,18 +739,18 @@ int main()
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

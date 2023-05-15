@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="第一次参加招聘笔试，试试水。我把部分题目记了下来，可供参考。 1234567891011121314151617181、具有C语言功能，又称过滤器的是（）A、tcsh   B、sed	C、awk	D、csh2、linux中，下列命令用于加载驱动模块的是（）A make modules instull initB initC insmodD load3、判断正误swap对vector操作会使迭代器失">
+  <meta name="description" content="用samba搭建私有云1、在ubuntu上安装sambasudo apt-get install samba samba-common 2、修改samba配置文件sudo vim &#x2F;etc&#x2F;samba&#x2F;smb.conf 在最下方添加  [share] comment &#x3D; share folder browseable &#x3D; yes path &#x3D; &#x2F;home&#x2F;abc&#x2F;data #需要共享的路径 cre">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CVTE2019嵌入式软件实习笔试题">
-<meta property="og:url" content="http://example.com/2019/03/07/CVTE2019%E5%B5%8C%E5%85%A5%E5%BC%8F%E8%BD%AF%E4%BB%B6%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:title" content="用samba搭建私有云">
+<meta property="og:url" content="http://example.com/2023/05/14/%E7%94%A8samba%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91/index.html">
 <meta property="og:site_name" content="dog house">
-<meta property="og:description" content="第一次参加招聘笔试，试试水。我把部分题目记了下来，可供参考。 1234567891011121314151617181、具有C语言功能，又称过滤器的是（）A、tcsh   B、sed	C、awk	D、csh2、linux中，下列命令用于加载驱动模块的是（）A make modules instull initB initC insmodD load3、判断正误swap对vector操作会使迭代器失">
+<meta property="og:description" content="用samba搭建私有云1、在ubuntu上安装sambasudo apt-get install samba samba-common 2、修改samba配置文件sudo vim &#x2F;etc&#x2F;samba&#x2F;smb.conf 在最下方添加  [share] comment &#x3D; share folder browseable &#x3D; yes path &#x3D; &#x2F;home&#x2F;abc&#x2F;data #需要共享的路径 cre">
 <meta property="og:locale">
-<meta property="article:published_time" content="2019-03-07T08:27:00.000Z">
-<meta property="article:modified_time" content="2023-04-02T13:52:27.023Z">
+<meta property="article:published_time" content="2023-05-14T14:31:02.000Z">
+<meta property="article:modified_time" content="2023-05-15T15:59:11.814Z">
 <meta property="article:author" content="zzg">
-<meta property="article:tag" content="笔试记录">
+<meta property="article:tag" content="服务器">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2019/03/07/CVTE2019%E5%B5%8C%E5%85%A5%E5%BC%8F%E8%BD%AF%E4%BB%B6%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AF%95%E9%A2%98/">
+<link rel="canonical" href="http://example.com/2023/05/14/%E7%94%A8samba%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>CVTE2019嵌入式软件实习笔试题 | dog house</title>
+  <title>用samba搭建私有云 | dog house</title>
   
 
 
@@ -166,7 +166,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/07/CVTE2019%E5%B5%8C%E5%85%A5%E5%BC%8F%E8%BD%AF%E4%BB%B6%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AF%95%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/14/%E7%94%A8samba%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/strong_doge.jpg">
@@ -179,7 +179,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          CVTE2019嵌入式软件实习笔试题
+          用samba搭建私有云
         </h1>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2019-03-07 16:27:00" itemprop="dateCreated datePublished" datetime="2019-03-07T16:27:00+08:00">2019-03-07</time>
+              <time title="创建时间：2023-05-14 22:31:02" itemprop="dateCreated datePublished" datetime="2023-05-14T22:31:02+08:00">2023-05-14</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-02 21:52:27" itemprop="dateModified" datetime="2023-04-02T21:52:27+08:00">2023-04-02</time>
+                <time title="修改时间：2023-05-15 23:59:11" itemprop="dateModified" datetime="2023-05-15T23:59:11+08:00">2023-05-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">笔试面试记录</span></a>
+                  <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8A%98%E8%85%BE/" itemprop="url" rel="index"><span itemprop="name">服务器折腾</span></a>
                 </span>
             </span>
 
@@ -219,37 +219,31 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>第一次参加招聘笔试，试试水。我把部分题目记了下来，可供参考。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">1、具有C语言功能，又称过滤器的是（）</span><br><span class="line">A、tcsh   B、sed	C、awk	D、csh</span><br><span class="line"></span><br><span class="line">2、linux中，下列命令用于加载驱动模块的是（）</span><br><span class="line">A make modules instull init</span><br><span class="line">B init</span><br><span class="line">C insmod</span><br><span class="line">D load</span><br><span class="line"></span><br><span class="line">3、判断正误</span><br><span class="line">swap对vector操作会使迭代器失效。</span><br><span class="line">unordered_map插入元素时是无序的。</span><br><span class="line">vector内存重新分配时，大小时原始容量的1.5倍</span><br><span class="line">关于struct的sizeof问题</span><br><span class="line"></span><br><span class="line">4、基于中断实时编程结构的实时性取决于（）</span><br><span class="line"></span><br><span class="line">5、static 数据成员可以被继承而实现多态？</span><br></pre></td></tr></table></figure>
+        <h1 id="用samba搭建私有云"><a href="#用samba搭建私有云" class="headerlink" title="用samba搭建私有云"></a>用samba搭建私有云</h1><h2 id="1、在ubuntu上安装samba"><a href="#1、在ubuntu上安装samba" class="headerlink" title="1、在ubuntu上安装samba"></a>1、在ubuntu上安装samba</h2><p><code>sudo apt-get install samba samba-common</code></p>
+<h2 id="2、修改samba配置文件"><a href="#2、修改samba配置文件" class="headerlink" title="2、修改samba配置文件"></a>2、修改samba配置文件</h2><p><code>sudo vim /etc/samba/smb.conf </code><br>在最下方添加</p>
+<pre>
+[share]
+comment = share folder
+browseable = yes
+path = /home/abc/data #需要共享的路径
+create mask = 0755
+directory mask = 0755  
+valid users = abc   #用户名称
+force user = abc
+force group = abc
+public = yes
+available = yes
+writable = yes </pre>
 
-<pre><code>   const修饰的成员函数只能范围const修饰的成员？
-6、需要经过三次握手的指令
-7、
-class Base1
-&#123;
-public:
-        Base1(int32_t value):value_(value)&#123;&#125;
-        virtual void PrintValue()&#123;std::cout&lt;&lt;value_;&#125;
-private:int32_t value_;
-&#125;;
-class Base2
-&#123;
-public:
-        virtual void PrintHello()&#123;std::cout&lt;&lt;&quot;hello&quot;;&#125;
-&#125;;
-class Droid:public Base1,public Base2
-&#123;
-public:
-        Droid(int32_t value):Base1(value)&#123;&#125;
-        void printValue()override&#123;std::cout&lt;&lt;2;&#125;
-        void printHello()override&#123;std:cout&lt;&lt;&quot;world&quot;;&#125;
-&#125;;
-int main()
-&#123;
-    std::cout&lt;&lt;sizeof(Base1)&lt;&lt;&quot; &quot;&lt;&lt;sizeof(Base2)&lt;&lt;&quot; &quot;&lt;&lt;sizeof(Droid);
-&#125;
-分析代码，写出程序运行结果。
-</code></pre>
+<p>如果要从外网访问，则要修改端口，（运营商一般默认关闭445端口）</p>
+<p>在[global]标签下增加下面的语句，端口号为你想设置的端口<br><code>smb ports = 端口号</code></p>
+<h2 id="3、给共享目录添加权限"><a href="#3、给共享目录添加权限" class="headerlink" title="3、给共享目录添加权限"></a>3、给共享目录添加权限</h2><p><code>sudo chmod 777 /home/abc/data</code></p>
+<h2 id="4、添加用户并设置访问密码"><a href="#4、添加用户并设置访问密码" class="headerlink" title="4、添加用户并设置访问密码"></a>4、添加用户并设置访问密码</h2><p><code>sudo smbpasswd -a abc</code></p>
+<h2 id="5、重启samba服务器"><a href="#5、重启samba服务器" class="headerlink" title="5、重启samba服务器"></a>5、重启samba服务器</h2><p><code>sudo service smbd restart</code></p>
+<p>如果没有修改端口号，则已经可以在局域网内访问了<br>在windows端打开运行 win+R<br>输入双反斜杠加IP或者域名就可以访问<br><code>\\192.168.1.11</code></p>
+<h2 id="6、windows端口转发设置"><a href="#6、windows端口转发设置" class="headerlink" title="6、windows端口转发设置"></a>6、windows端口转发设置</h2><p>关闭占用445端口的应用<br><code>sc config LanmanServer start= disabled</code><br><code>net stop LanmanServer</code><br>开启ip helper服务<br><code>sc config iphlpsvc start= auto</code><br>设置转发<br><code>netsh interface portproxy add v4tov6 listenport=445 listenaddress=127.0.0.1 connectport=替换为端口号 connectaddress=替换为动态域名</code><br>因为我的域名是ipv6的解析，所以用v4tov6<br>重启电脑后生效。</p>
+<h2 id="7、windows下通过访问共享文件夹"><a href="#7、windows下通过访问共享文件夹" class="headerlink" title="7、windows下通过访问共享文件夹"></a>7、windows下通过访问共享文件夹</h2><p>注意，此时进行了端口转发，所以不是使用smb服务器的地址！<br><code>\\127.0.0.1</code><br>在输入用户名和访问密码后即可登录。</p>
+<h2 id="8、ios端访问"><a href="#8、ios端访问" class="headerlink" title="8、ios端访问"></a>8、ios端访问</h2><p>&emsp;&emsp;用系统自带的服务器连接工具不能指定端口，需要借助第三方软件ES文件浏览器，在新建中选择SMB，然后输入域名、端口、用户名密码就可以访问。</p>
 
     </div>
 
@@ -259,7 +253,7 @@ int main()
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E7%AC%94%E8%AF%95%E8%AE%B0%E5%BD%95/" rel="tag"># 笔试记录</a>
+              <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag"># 服务器</a>
           </div>
 
         
@@ -268,13 +262,10 @@ int main()
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2019/03/03/hello-world/" rel="prev" title="新的开始">
-      <i class="fa fa-chevron-left"></i> 新的开始
+    <a href="/2022/06/26/stm32%E5%A4%96%E9%83%A8%E6%99%B6%E6%8C%AF%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B/" rel="prev" title="stm32外部晶振故障检测">
+      <i class="fa fa-chevron-left"></i> stm32外部晶振故障检测
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2019/06/30/%E6%A0%88%E7%9A%84%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/" rel="next" title="栈的顺序存储结构">
-      栈的顺序存储结构 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -333,6 +324,7 @@ int main()
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8samba%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91"><span class="nav-number">1.</span> <span class="nav-text">用samba搭建私有云</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%9C%A8ubuntu%E4%B8%8A%E5%AE%89%E8%A3%85samba"><span class="nav-number">1.1.</span> <span class="nav-text">1、在ubuntu上安装samba</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E4%BF%AE%E6%94%B9samba%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">2、修改samba配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E7%BB%99%E5%85%B1%E4%BA%AB%E7%9B%AE%E5%BD%95%E6%B7%BB%E5%8A%A0%E6%9D%83%E9%99%90"><span class="nav-number">1.3.</span> <span class="nav-text">3、给共享目录添加权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%B9%B6%E8%AE%BE%E7%BD%AE%E8%AE%BF%E9%97%AE%E5%AF%86%E7%A0%81"><span class="nav-number">1.4.</span> <span class="nav-text">4、添加用户并设置访问密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81%E9%87%8D%E5%90%AFsamba%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.5.</span> <span class="nav-text">5、重启samba服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6%E3%80%81windows%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.6.</span> <span class="nav-text">6、windows端口转发设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7%E3%80%81windows%E4%B8%8B%E9%80%9A%E8%BF%87%E8%AE%BF%E9%97%AE%E5%85%B1%E4%BA%AB%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="nav-number">1.7.</span> <span class="nav-text">7、windows下通过访问共享文件夹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8%E3%80%81ios%E7%AB%AF%E8%AE%BF%E9%97%AE"><span class="nav-number">1.8.</span> <span class="nav-text">8、ios端访问</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
