@@ -1,7 +1,7 @@
 ---
 title: 用samba搭建私有云
 date: 2023-05-14 22:31:02
-categories: 服务器折腾
+categories: 折腾
 tags: 服务器
 ---
 # 用samba搭建私有云
