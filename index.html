@@ -160,6 +160,254 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/29/foc%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/strong_doge.jpg">
+      <meta itemprop="name" content="zzg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dog house">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/29/foc%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">foc算法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-05-29 14:52:22" itemprop="dateCreated datePublished" datetime="2024-05-29T14:52:22+08:00">2024-05-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-07-20 22:22:58" itemprop="dateModified" datetime="2024-07-20T22:22:58+08:00">2024-07-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">嵌入式</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="park与反park的角度偏差"><a href="#park与反park的角度偏差" class="headerlink" title="park与反park的角度偏差"></a>park与反park的角度偏差</h1><h1 id="svpwm死区补偿"><a href="#svpwm死区补偿" class="headerlink" title="svpwm死区补偿"></a>svpwm死区补偿</h1>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/28/protothread%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/strong_doge.jpg">
+      <meta itemprop="name" content="zzg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dog house">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/28/protothread%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">protothread原理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-05-28 14:56:40" itemprop="dateCreated datePublished" datetime="2024-05-28T14:56:40+08:00">2024-05-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-07-20 22:22:58" itemprop="dateModified" datetime="2024-07-20T22:22:58+08:00">2024-07-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">嵌入式</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在一些规模较小的项目中，系统的复杂度还没有到需要使用rtos的必要，并且rtos本身会占用大量的代码空间。此时可以使用protothread来对工程进行类操作系统task的包装，或者实现类似调度的功能。这样日后想上操作系统时可以方便的进行适配。</p>
+<h1 id="protothread是什么"><a href="#protothread是什么" class="headerlink" title="protothread是什么"></a>protothread是什么</h1><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Protothreads">维基百科</a></p>
+<p>Protothreads是一种低开销的并发编程机制。Protothreads充当无栈的轻量级线程或协程，它使用了极小的每protothread内存：一个短整数保存执行位置，一个字节作为让步标志。</p>
+<p>Protothreads可用于实现叫做协作式多任务的非抢占形式的并发计算，故而在一个线程yield（让步）给另一个线程的时候不会招致上下文切换。为了在一个protothread内达成yield，在线程函数内利用了达夫设备并在其switch语句内使用一个函数外部的变量。这允许在另一次函数调用时跳转（恢复）到上次的yield的地方。为了阻塞线程，这些yield要通过等待条件来守卫，使得后续的对同样这个函数的调用仍然yield，直到这个条件表达式是为真值为止。</p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><h2 id="达夫设备"><a href="#达夫设备" class="headerlink" title="达夫设备"></a>达夫设备</h2><p>达夫设备利用了switch case语句的”穿透”特性，在case语句后如果没有break，则会一直执行到switch语句的结尾。以下方代码为例。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdio.h&quot;</span><br><span class="line">#include &quot;stdlib.h&quot;</span><br><span class="line">void duffs_device_demo (int count) &#123;</span><br><span class="line">    int n = (count+7)/8;</span><br><span class="line">    int val = count;</span><br><span class="line">    switch(count % 8) &#123;</span><br><span class="line">        case 0: do &#123; printf(&quot;%d &quot;, val--);</span><br><span class="line">        case 7:      printf(&quot;%d &quot;, val--);</span><br><span class="line">        case 6:      printf(&quot;%d &quot;, val--);</span><br><span class="line">        case 5:      printf(&quot;%d &quot;, val--);</span><br><span class="line">        case 4:      printf(&quot;%d &quot;, val--);</span><br><span class="line">        case 3:      printf(&quot;%d &quot;, val--);</span><br><span class="line">        case 2:      printf(&quot;%d &quot;, val--);</span><br><span class="line">        case 1:      printf(&quot;%d &quot;, val--);</span><br><span class="line">        &#125; while (--n &gt; 0);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    duffs_device_demo(10);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输入count的值为10，n为2，在执行到switch语句时条件值为10%8=2，会跳转到”case 2:”语句处。然后会因为“穿透”的特性一直执行到”while(–n &gt; 0)”这个语句处，此时–n为1，会继续跳转到do语句处再开始执行，然后再次“穿透”到while判断，n=0，退出循环。</p>
+<p>最后执行的结果就是打印为：10 9 8 7 6 5 4 3 2 1</p>
+<h2 id="protothread的实现"><a href="#protothread的实现" class="headerlink" title="protothread的实现"></a>protothread的实现</h2><p>protothread的代码都是用宏来定义。</p>
+<p>一个典型的用法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">/*define and init pt struct*/</span><br><span class="line">struct pt m_pt_demo;</span><br><span class="line">PT_INIT(pt_demo);</span><br><span class="line"></span><br><span class="line">/*thread code*/</span><br><span class="line">int demo_thread()</span><br><span class="line">&#123;</span><br><span class="line">    PT_BEGIN(&amp;m_pt_demo);</span><br><span class="line"></span><br><span class="line">    while (1) &#123;</span><br><span class="line">        /*user code*/</span><br><span class="line"></span><br><span class="line">        PT_YIELD(&amp;m_pt_demo);</span><br><span class="line"></span><br><span class="line">        /*user code*/</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    PT_END(&amp;m_pt_demo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>将宏进行展开</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">/*PT_INIT*/</span><br><span class="line">(m_pt_demo)-&gt;lc = 0; </span><br><span class="line"></span><br><span class="line">int demo_thread()</span><br><span class="line">&#123; </span><br><span class="line">    /*PT_BEGIN*/</span><br><span class="line">    char PT_YIELD_FLAG = 1; </span><br><span class="line">    switch((m_pt_demo)-&gt;lc) &#123;</span><br><span class="line">        case 0:</span><br><span class="line"></span><br><span class="line">        while(1) &#123;</span><br><span class="line">            /*user code*/</span><br><span class="line"></span><br><span class="line">            /*PT_YIELD*/</span><br><span class="line">            do &#123;						</span><br><span class="line">                PT_YIELD_FLAG = 0;	</span><br><span class="line">                /*LC_SET*/</span><br><span class="line">                (m_pt_demo)-&gt;lc = __LINE__; case __LINE__:						</span><br><span class="line">                if(PT_YIELD_FLAG == 0) &#123;			</span><br><span class="line">                    return PT_YIELDED;			</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; while(0)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    /*PT_END*/</span><br><span class="line">    &#125;;</span><br><span class="line">    PT_YIELD_FLAG = 0; </span><br><span class="line">    (m_pt_demo)-&gt;lc = 0;  </span><br><span class="line">    return PT_ENDED; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在第一轮进入demo_thread时，(m_pt_demo)-&gt;lc = 0,因此执行user code，然后进入yield,把PT_YIELD_FLAG置0，并把当前运行到的行号赋给(m_pt_demo)-&gt;lc，用于记录目前执行到的位置。然后退出函数，让出cpu。</p>
+<p>当下一轮再次进入时，PT_YIELD_FLAG先置为1，然后到switch时直接跳转到了case __LINE__:处，由于PT_YIELD_FLAG为一，所以又运行user code，然后重复第一轮的操作。这就实现了一种看起来类似于“调度”的效果。</p>
+<p>此外还有PT_WAIT_UNTIL,可以在条件不满足时让出cpu，并在条件满足后从上次执行到的位置来运行，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#define PT_WAIT_UNTIL(pt, condition)	        \</span><br><span class="line">  do &#123;						\</span><br><span class="line">    LC_SET((pt)-&gt;lc);				\</span><br><span class="line">    if(!(condition)) &#123;				\</span><br><span class="line">      return PT_WAITING;			\</span><br><span class="line">    &#125;						\</span><br><span class="line">  &#125; while(0)</span><br></pre></td></tr></table></figure>
+
+<p>还支持“子线程”、信号量之类的功能。</p>
+<h1 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h1><p>不能保存现场，其“线程”并没有自己的栈，其局部变量的值无法保存到下一轮运行，所以只能用全局变量来保存需要使用的值。</p>
+<p>不存在真正的“调度”过程，代码本质上还是按照顺序来执行。（也不能说时缺点，只能说特性）</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>protothread仅仅用了4个.文件就实现了操作系统中的一些关键功能。非常适合一些轻量级的项目来使用，可以避免移植操作系统的麻烦以及操作系统的大量资源消耗。</p>
+<p>但由于其无栈的特性，在使用时要小心现场的保存问题。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/05/nuttx%E5%BA%94%E7%94%A8%E7%9A%84%E8%BD%BD%E5%85%A5%E8%BF%87%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/strong_doge.jpg">
+      <meta itemprop="name" content="zzg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dog house">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/05/nuttx%E5%BA%94%E7%94%A8%E7%9A%84%E8%BD%BD%E5%85%A5%E8%BF%87%E7%A8%8B/" class="post-title-link" itemprop="url">nuttx应用的载入过程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-05 14:21:16 / 修改时间：14:22:05" itemprop="dateCreated datePublished" datetime="2023-11-05T14:21:16+08:00">2023-11-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">嵌入式</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="nuttx应用的载入过程（cmake版）"><a href="#nuttx应用的载入过程（cmake版）" class="headerlink" title="nuttx应用的载入过程（cmake版）"></a>nuttx应用的载入过程（cmake版）</h1><p>以apps/examples/helloxx这个应用为例<br>其应用入口为apps/examples/helloxx/helloxx_main.cxx中的<br><code>extern &quot;C&quot; int main(int argc, FAR char *argv[])</code>函数<br>在该目录下CMakeLists.txt中将其添加到nsh的命令中   </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">nuttx_add_application(   </span><br><span class="line">    NAME</span><br><span class="line">    helloxx</span><br><span class="line">    STACKSIZE</span><br><span class="line">    $&#123;CONFIG_DEFAULT_TASK_STACKSIZE&#125;</span><br><span class="line">    MODULE</span><br><span class="line">    $&#123;CONFIG_EXAMPLES_HELLOXX&#125;</span><br><span class="line">    SRCS</span><br><span class="line">    helloxx_main.cxx)</span><br><span class="line">endif()</span><br></pre></td></tr></table></figure>
+<p>在nuttx/cmake/nuttx_add_application.cmake中将创建一个名为apps_helloxx的library</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set(TARGET &quot;apps_$&#123;NAME&#125;&quot;)</span><br><span class="line">add_library($&#123;TARGET&#125; $&#123;SRCS&#125;)</span><br></pre></td></tr></table></figure>
+<p>再通过nuttx_add_library_internal将nuttx相关的头文件以及依赖传进来。</p>
+<p>修改helloxx_main.cxx中main函数的名字改为helloxx_main</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">list(GET SRCS 0 MAIN_SRC)</span><br><span class="line">set_property(</span><br><span class="line">    SOURCE $&#123;MAIN_SRC&#125;</span><br><span class="line">    APPEND</span><br><span class="line">    PROPERTY COMPILE_DEFINITIONS main=$&#123;NAME&#125;_main)</span><br></pre></td></tr></table></figure>
+
+<p>将应用的主函数名字、应用名字、PRIORITY、STACKSIZE参数则传入对应的properties中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">set_target_properties($&#123;TARGET&#125; PROPERTIES APP_MAIN $&#123;NAME&#125;_main)</span><br><span class="line">set_target_properties($&#123;TARGET&#125; PROPERTIES APP_NAME $&#123;NAME&#125;)</span><br><span class="line"></span><br><span class="line">if(PRIORITY)</span><br><span class="line">  set_target_properties($&#123;TARGET&#125; PROPERTIES APP_PRIORITY $&#123;PRIORITY&#125;)</span><br><span class="line">else()</span><br><span class="line">  set_target_properties($&#123;TARGET&#125; PROPERTIES APP_PRIORITY</span><br><span class="line">                                             SCHED_PRIORITY_DEFAULT)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line">if(STACKSIZE)</span><br><span class="line">  set_target_properties($&#123;TARGET&#125; PROPERTIES APP_STACK $&#123;STACKSIZE&#125;)</span><br><span class="line">else()</span><br><span class="line">  set_target_properties($&#123;TARGET&#125; PROPERTIES APP_STACK</span><br><span class="line">                                             $&#123;CONFIG_DEFAULT_TASK_STACKSIZE&#125;)</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/11/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%86%99markdown%E5%B9%B6%E5%90%8C%E6%AD%A5github/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -191,7 +439,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-12 22:14:38" itemprop="dateModified" datetime="2023-06-12T22:14:38+08:00">2023-06-12</time>
+                <time title="修改时间：2023-06-12 22:17:28" itemprop="dateModified" datetime="2023-06-12T22:17:28+08:00">2023-06-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -280,7 +528,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-12 22:13:20" itemprop="dateModified" datetime="2023-06-12T22:13:20+08:00">2023-06-12</time>
+                <time title="修改时间：2023-06-12 22:35:37" itemprop="dateModified" datetime="2023-06-12T22:35:37+08:00">2023-06-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -288,7 +536,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8A%98%E8%85%BE/" itemprop="url" rel="index"><span itemprop="name">服务器折腾</span></a>
+                  <a href="/categories/%E6%8A%98%E8%85%BE/" itemprop="url" rel="index"><span itemprop="name">折腾</span></a>
                 </span>
             </span>
 
@@ -328,80 +576,6 @@ writable = yes </pre>
 <h2 id="6、windows端口转发设置"><a href="#6、windows端口转发设置" class="headerlink" title="6、windows端口转发设置"></a>6、windows端口转发设置</h2><p>关闭占用445端口的应用<br><code>sc config LanmanServer start= disabled</code><br><code>net stop LanmanServer</code><br>开启ip helper服务<br><code>sc config iphlpsvc start= auto</code><br>设置转发<br><code>netsh interface portproxy add v4tov6 listenport=445 listenaddress=127.0.0.1 connectport=替换为端口号 connectaddress=替换为动态域名</code><br>因为我的域名是ipv6的解析，所以用v4tov6<br>重启电脑后生效。</p>
 <h2 id="7、windows下通过访问共享文件夹"><a href="#7、windows下通过访问共享文件夹" class="headerlink" title="7、windows下通过访问共享文件夹"></a>7、windows下通过访问共享文件夹</h2><p>注意，此时进行了端口转发，所以不是使用smb服务器的地址！<br><code>\\127.0.0.1</code><br>在输入用户名和访问密码后即可登录。</p>
 <h2 id="8、ios端访问"><a href="#8、ios端访问" class="headerlink" title="8、ios端访问"></a>8、ios端访问</h2><p>&emsp;&emsp;用系统自带的服务器连接工具不能指定端口，需要借助第三方软件ES文件浏览器，在新建中选择SMB，然后输入域名、端口、用户名密码就可以访问。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/26/pad/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/strong_doge.jpg">
-      <meta itemprop="name" content="zzg">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dog house">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/26/pad/" class="post-title-link" itemprop="url">模板</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-06-26 22:35:42" itemprop="dateCreated datePublished" datetime="2022-06-26T22:35:42+08:00">2022-06-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-12 22:13:20" itemprop="dateModified" datetime="2023-06-12T22:13:20+08:00">2023-06-12</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%98%E8%85%BE/" itemprop="url" rel="index"><span itemprop="name">折腾</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>模板</p>
 
       
     </div>
@@ -902,18 +1076,18 @@ int main()
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -940,7 +1114,7 @@ int main()
 <div class="copyright">
   
   &copy; 2019 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

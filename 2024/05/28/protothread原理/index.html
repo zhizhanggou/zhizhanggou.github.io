@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="背景在一些规模较小的项目中，系统的复杂度还没有到需要使用rtos的必要，并且rtos本身会占用大量的代码空间。此时可以使用protothread来对工程进行类操作系统task的包装，或者实现类似调度的功能。这样日后想上操作系统时可以方便的进行适配。 protothread是什么维基百科 Protothreads是一种低开销的并发编程机制。Protothreads充当无栈的轻量级线程或协程，它使用了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="protothread原理">
+<meta property="og:url" content="http://example.com/2024/05/28/protothread%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="dog house">
+<meta property="og:description" content="背景在一些规模较小的项目中，系统的复杂度还没有到需要使用rtos的必要，并且rtos本身会占用大量的代码空间。此时可以使用protothread来对工程进行类操作系统task的包装，或者实现类似调度的功能。这样日后想上操作系统时可以方便的进行适配。 protothread是什么维基百科 Protothreads是一种低开销的并发编程机制。Protothreads充当无栈的轻量级线程或协程，它使用了">
+<meta property="og:locale">
+<meta property="article:published_time" content="2024-05-28T06:56:40.000Z">
+<meta property="article:modified_time" content="2024-07-20T14:22:58.968Z">
+<meta property="article:author" content="zzg">
+<meta property="article:tag" content="操作系统">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2024/05/28/protothread%E5%8E%9F%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>protothread原理 | dog house</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dog house</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/28/protothread%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/strong_doge.jpg">
+      <meta itemprop="name" content="zzg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dog house">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          protothread原理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-05-28 14:56:40" itemprop="dateCreated datePublished" datetime="2024-05-28T14:56:40+08:00">2024-05-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-07-20 22:22:58" itemprop="dateModified" datetime="2024-07-20T22:22:58+08:00">2024-07-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">嵌入式</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在一些规模较小的项目中，系统的复杂度还没有到需要使用rtos的必要，并且rtos本身会占用大量的代码空间。此时可以使用protothread来对工程进行类操作系统task的包装，或者实现类似调度的功能。这样日后想上操作系统时可以方便的进行适配。</p>
+<h1 id="protothread是什么"><a href="#protothread是什么" class="headerlink" title="protothread是什么"></a>protothread是什么</h1><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Protothreads">维基百科</a></p>
+<p>Protothreads是一种低开销的并发编程机制。Protothreads充当无栈的轻量级线程或协程，它使用了极小的每protothread内存：一个短整数保存执行位置，一个字节作为让步标志。</p>
+<p>Protothreads可用于实现叫做协作式多任务的非抢占形式的并发计算，故而在一个线程yield（让步）给另一个线程的时候不会招致上下文切换。为了在一个protothread内达成yield，在线程函数内利用了达夫设备并在其switch语句内使用一个函数外部的变量。这允许在另一次函数调用时跳转（恢复）到上次的yield的地方。为了阻塞线程，这些yield要通过等待条件来守卫，使得后续的对同样这个函数的调用仍然yield，直到这个条件表达式是为真值为止。</p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><h2 id="达夫设备"><a href="#达夫设备" class="headerlink" title="达夫设备"></a>达夫设备</h2><p>达夫设备利用了switch case语句的”穿透”特性，在case语句后如果没有break，则会一直执行到switch语句的结尾。以下方代码为例。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdio.h&quot;</span><br><span class="line">#include &quot;stdlib.h&quot;</span><br><span class="line">void duffs_device_demo (int count) &#123;</span><br><span class="line">    int n = (count+7)/8;</span><br><span class="line">    int val = count;</span><br><span class="line">    switch(count % 8) &#123;</span><br><span class="line">        case 0: do &#123; printf(&quot;%d &quot;, val--);</span><br><span class="line">        case 7:      printf(&quot;%d &quot;, val--);</span><br><span class="line">        case 6:      printf(&quot;%d &quot;, val--);</span><br><span class="line">        case 5:      printf(&quot;%d &quot;, val--);</span><br><span class="line">        case 4:      printf(&quot;%d &quot;, val--);</span><br><span class="line">        case 3:      printf(&quot;%d &quot;, val--);</span><br><span class="line">        case 2:      printf(&quot;%d &quot;, val--);</span><br><span class="line">        case 1:      printf(&quot;%d &quot;, val--);</span><br><span class="line">        &#125; while (--n &gt; 0);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    duffs_device_demo(10);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输入count的值为10，n为2，在执行到switch语句时条件值为10%8=2，会跳转到”case 2:”语句处。然后会因为“穿透”的特性一直执行到”while(–n &gt; 0)”这个语句处，此时–n为1，会继续跳转到do语句处再开始执行，然后再次“穿透”到while判断，n=0，退出循环。</p>
+<p>最后执行的结果就是打印为：10 9 8 7 6 5 4 3 2 1</p>
+<h2 id="protothread的实现"><a href="#protothread的实现" class="headerlink" title="protothread的实现"></a>protothread的实现</h2><p>protothread的代码都是用宏来定义。</p>
+<p>一个典型的用法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">/*define and init pt struct*/</span><br><span class="line">struct pt m_pt_demo;</span><br><span class="line">PT_INIT(pt_demo);</span><br><span class="line"></span><br><span class="line">/*thread code*/</span><br><span class="line">int demo_thread()</span><br><span class="line">&#123;</span><br><span class="line">    PT_BEGIN(&amp;m_pt_demo);</span><br><span class="line"></span><br><span class="line">    while (1) &#123;</span><br><span class="line">        /*user code*/</span><br><span class="line"></span><br><span class="line">        PT_YIELD(&amp;m_pt_demo);</span><br><span class="line"></span><br><span class="line">        /*user code*/</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    PT_END(&amp;m_pt_demo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>将宏进行展开</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">/*PT_INIT*/</span><br><span class="line">(m_pt_demo)-&gt;lc = 0; </span><br><span class="line"></span><br><span class="line">int demo_thread()</span><br><span class="line">&#123; </span><br><span class="line">    /*PT_BEGIN*/</span><br><span class="line">    char PT_YIELD_FLAG = 1; </span><br><span class="line">    switch((m_pt_demo)-&gt;lc) &#123;</span><br><span class="line">        case 0:</span><br><span class="line"></span><br><span class="line">        while(1) &#123;</span><br><span class="line">            /*user code*/</span><br><span class="line"></span><br><span class="line">            /*PT_YIELD*/</span><br><span class="line">            do &#123;						</span><br><span class="line">                PT_YIELD_FLAG = 0;	</span><br><span class="line">                /*LC_SET*/</span><br><span class="line">                (m_pt_demo)-&gt;lc = __LINE__; case __LINE__:						</span><br><span class="line">                if(PT_YIELD_FLAG == 0) &#123;			</span><br><span class="line">                    return PT_YIELDED;			</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; while(0)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    /*PT_END*/</span><br><span class="line">    &#125;;</span><br><span class="line">    PT_YIELD_FLAG = 0; </span><br><span class="line">    (m_pt_demo)-&gt;lc = 0;  </span><br><span class="line">    return PT_ENDED; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在第一轮进入demo_thread时，(m_pt_demo)-&gt;lc = 0,因此执行user code，然后进入yield,把PT_YIELD_FLAG置0，并把当前运行到的行号赋给(m_pt_demo)-&gt;lc，用于记录目前执行到的位置。然后退出函数，让出cpu。</p>
+<p>当下一轮再次进入时，PT_YIELD_FLAG先置为1，然后到switch时直接跳转到了case __LINE__:处，由于PT_YIELD_FLAG为一，所以又运行user code，然后重复第一轮的操作。这就实现了一种看起来类似于“调度”的效果。</p>
+<p>此外还有PT_WAIT_UNTIL,可以在条件不满足时让出cpu，并在条件满足后从上次执行到的位置来运行，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#define PT_WAIT_UNTIL(pt, condition)	        \</span><br><span class="line">  do &#123;						\</span><br><span class="line">    LC_SET((pt)-&gt;lc);				\</span><br><span class="line">    if(!(condition)) &#123;				\</span><br><span class="line">      return PT_WAITING;			\</span><br><span class="line">    &#125;						\</span><br><span class="line">  &#125; while(0)</span><br></pre></td></tr></table></figure>
+
+<p>还支持“子线程”、信号量之类的功能。</p>
+<h1 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h1><p>不能保存现场，其“线程”并没有自己的栈，其局部变量的值无法保存到下一轮运行，所以只能用全局变量来保存需要使用的值。</p>
+<p>不存在真正的“调度”过程，代码本质上还是按照顺序来执行。（也不能说时缺点，只能说特性）</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>protothread仅仅用了4个.文件就实现了操作系统中的一些关键功能。非常适合一些轻量级的项目来使用，可以避免移植操作系统的麻烦以及操作系统的大量资源消耗。</p>
+<p>但由于其无栈的特性，在使用时要小心现场的保存问题。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag"># 操作系统</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/11/05/nuttx%E5%BA%94%E7%94%A8%E7%9A%84%E8%BD%BD%E5%85%A5%E8%BF%87%E7%A8%8B/" rel="prev" title="nuttx应用的载入过程">
+      <i class="fa fa-chevron-left"></i> nuttx应用的载入过程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/05/29/foc%E7%AE%97%E6%B3%95/" rel="next" title="foc算法">
+      foc算法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#protothread%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.</span> <span class="nav-text">protothread是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%BE%E5%A4%AB%E8%AE%BE%E5%A4%87"><span class="nav-number">3.1.</span> <span class="nav-text">达夫设备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#protothread%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.2.</span> <span class="nav-text">protothread的实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9"><span class="nav-number">4.</span> <span class="nav-text">缺点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zzg"
+      src="/images/strong_doge.jpg">
+  <p class="site-author-name" itemprop="name">zzg</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zzg</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
