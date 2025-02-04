@@ -160,6 +160,167 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/02/04/FT2232-OpenOCD%E7%83%A7%E5%BD%95stm32/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/strong_doge.jpg">
+      <meta itemprop="name" content="zzg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dog house">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/02/04/FT2232-OpenOCD%E7%83%A7%E5%BD%95stm32/" class="post-title-link" itemprop="url">FT2232+OpenOCD烧录stm32</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-02-04 21:43:40 / 修改时间：22:32:25" itemprop="dateCreated datePublished" datetime="2025-02-04T21:43:40+08:00">2025-02-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">嵌入式</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><ul>
+<li><p>ubuntu 环境下先进行openocd的安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openocd</span><br></pre></td></tr></table></figure></li>
+<li><p>安装依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libusb-1.0-0-dev libftdi-dev</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><ul>
+<li>先创建ft2232的配置文件ft2232.cfg (文件名随意)<br>/usr/share/openocd/scripts/interface  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">adapter driver ftdi</span><br><span class="line">ftdi_vid_pid 0x0403 0x6010</span><br><span class="line"></span><br><span class="line">adapter speed 1500</span><br><span class="line"># ftdi_tdo_sample_edge falling</span><br><span class="line">transport select swd</span><br><span class="line"></span><br><span class="line">ftdi_layout_init 0x0508 0x0f1b</span><br><span class="line">ftdi_layout_signal SWD_EN -data 0</span><br><span class="line"></span><br><span class="line">ftdi_layout_signal nSRST -data 0x0010</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+openocd还有很多设备的配置文件，像stlink、ulink、jlink之类的，配置文件路径默认在</li>
+</ul>
+<ul>
+<li>芯片相关配置的配置<br>芯片相关配置的路径在/usr/share/openocd/scripts/target<br>这里需要烧录的芯片是stm32f411ce，所以需要使用配置文件stm32f4x.cfg<br>为方便起见，我把ft2232.cfg和stm32f4x.cfg都放在了~/openocd目录下</li>
+</ul>
+<h1 id="烧录脚本"><a href="#烧录脚本" class="headerlink" title="烧录脚本"></a>烧录脚本</h1><p>使用bash脚本来实现烧录指令<br>stm32_flash.sh</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">SOURCE=~/openocd</span><br><span class="line">INTERFACE_CFG=$&#123;SOURCE&#125;/ft2232.cfg</span><br><span class="line">TARGET_CFG=$&#123;SOURCE&#125;/stm32f4x.cfg</span><br><span class="line"></span><br><span class="line">openocd -f $&#123;INTERFACE_CFG&#125;                     \</span><br><span class="line">        -f $&#123;TARGET_CFG&#125;                        \</span><br><span class="line">        -c &quot;init&quot;                               \</span><br><span class="line">        -c &quot;halt&quot;                               \</span><br><span class="line">        -c &quot;flash write_image erase $&#123;1&#125;&quot;       \</span><br><span class="line">        -c &quot;reset&quot;                              \</span><br><span class="line">        -c &quot;exit&quot;</span><br></pre></td></tr></table></figure>
+
+<p>加好环境变量与执行权限后这样就可以用如下指令直接烧录固件(hex)。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./stm32_flash.sh &lt;固件路径&gt;</span><br></pre></td></tr></table></figure>
+<p>要烧录其他类型的固件可以修改脚本指令。<br>比如bin文件的话就加上起始地址，改为flash write_image erase ${1} 0x08000000</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/12/01/%E5%85%B3%E4%BA%8Enuttx%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/strong_doge.jpg">
+      <meta itemprop="name" content="zzg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dog house">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/12/01/%E5%85%B3%E4%BA%8Enuttx%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">关于nuttx的一些记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-12-01 21:42:24" itemprop="dateCreated datePublished" datetime="2024-12-01T21:42:24+08:00">2024-12-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-02-04 21:41:41" itemprop="dateModified" datetime="2025-02-04T21:41:41+08:00">2025-02-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">嵌入式</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>alias st_d=”~/tool/stm32_flash.sh”<br>alias st_c=”cmake –build build -t clean”<br>alias st_b=”cmake –build build”<br>alias st_m=”cmake –build build -t menuconfig”</p>
+<p>需要使用./tools/mkromfsimg.sh来生成etc_romfs.c文件z</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/29/foc%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -353,10 +514,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-11-05 14:21:16 / 修改时间：14:22:05" itemprop="dateCreated datePublished" datetime="2023-11-05T14:21:16+08:00">2023-11-05</time>
+              <time title="创建时间：2023-11-05 14:21:16" itemprop="dateCreated datePublished" datetime="2023-11-05T14:21:16+08:00">2023-11-05</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-01 21:42:45" itemprop="dateModified" datetime="2024-12-01T21:42:45+08:00">2024-12-01</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -839,177 +1006,11 @@ writable = yes </pre>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/07/CVTE2019%E5%B5%8C%E5%85%A5%E5%BC%8F%E8%BD%AF%E4%BB%B6%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AF%95%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/strong_doge.jpg">
-      <meta itemprop="name" content="zzg">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dog house">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/03/07/CVTE2019%E5%B5%8C%E5%85%A5%E5%BC%8F%E8%BD%AF%E4%BB%B6%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AF%95%E9%A2%98/" class="post-title-link" itemprop="url">CVTE2019嵌入式软件实习笔试题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-03-07 16:27:00" itemprop="dateCreated datePublished" datetime="2019-03-07T16:27:00+08:00">2019-03-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-12 22:13:20" itemprop="dateModified" datetime="2023-06-12T22:13:20+08:00">2023-06-12</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">笔试面试记录</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>第一次参加招聘笔试，试试水。我把部分题目记了下来，可供参考。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">1、具有C语言功能，又称过滤器的是（）</span><br><span class="line">A、tcsh   B、sed	C、awk	D、csh</span><br><span class="line"></span><br><span class="line">2、linux中，下列命令用于加载驱动模块的是（）</span><br><span class="line">A make modules instull init</span><br><span class="line">B init</span><br><span class="line">C insmod</span><br><span class="line">D load</span><br><span class="line"></span><br><span class="line">3、判断正误</span><br><span class="line">swap对vector操作会使迭代器失效。</span><br><span class="line">unordered_map插入元素时是无序的。</span><br><span class="line">vector内存重新分配时，大小时原始容量的1.5倍</span><br><span class="line">关于struct的sizeof问题</span><br><span class="line"></span><br><span class="line">4、基于中断实时编程结构的实时性取决于（）</span><br><span class="line"></span><br><span class="line">5、static 数据成员可以被继承而实现多态？</span><br></pre></td></tr></table></figure>
-
-<pre><code>   const修饰的成员函数只能范围const修饰的成员？
-6、需要经过三次握手的指令
-7、
-class Base1
-&#123;
-public:
-        Base1(int32_t value):value_(value)&#123;&#125;
-        virtual void PrintValue()&#123;std::cout&lt;&lt;value_;&#125;
-private:int32_t value_;
-&#125;;
-class Base2
-&#123;
-public:
-        virtual void PrintHello()&#123;std::cout&lt;&lt;&quot;hello&quot;;&#125;
-&#125;;
-class Droid:public Base1,public Base2
-&#123;
-public:
-        Droid(int32_t value):Base1(value)&#123;&#125;
-        void printValue()override&#123;std::cout&lt;&lt;2;&#125;
-        void printHello()override&#123;std:cout&lt;&lt;&quot;world&quot;;&#125;
-&#125;;
-int main()
-&#123;
-    std::cout&lt;&lt;sizeof(Base1)&lt;&lt;&quot; &quot;&lt;&lt;sizeof(Base2)&lt;&lt;&quot; &quot;&lt;&lt;sizeof(Droid);
-&#125;
-分析代码，写出程序运行结果。
-</code></pre>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/03/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/strong_doge.jpg">
-      <meta itemprop="name" content="zzg">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dog house">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/03/03/hello-world/" class="post-title-link" itemprop="url">新的开始</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-03-03 19:06:00" itemprop="dateCreated datePublished" datetime="2019-03-03T19:06:00+08:00">2019-03-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-12 22:13:20" itemprop="dateModified" datetime="2023-06-12T22:13:20+08:00">2023-06-12</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="New-Start"><a href="#New-Start" class="headerlink" title="New Start"></a>New Start</h2><p>第一篇个人博客，试试水。也算是从软硬结合转向纯软方向了。我会在博客上写写一些学习中的笔记。要看的东西是真的多，数据结构、tcp/ip、C++、java、linux。。。<br>先给自己定个小目标，这学期先把C++和数据结构先好好学习学习吧。生活不易，饭难恰啊。<br>下辈子真想当条小姐姐家的阿柴。<br>                <img src="/images/%E5%92%B8%E9%B1%BC.jpg"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
 
 
 
@@ -1076,7 +1077,7 @@ int main()
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1087,7 +1088,7 @@ int main()
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -1114,7 +1115,7 @@ int main()
 <div class="copyright">
   
   &copy; 2019 – 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
