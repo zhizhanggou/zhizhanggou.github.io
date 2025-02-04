@@ -2,7 +2,7 @@
 title: nuttx应用的载入过程
 date: 2023-11-05 14:21:16
 categories: 嵌入式
-tags:
+tags: nuttx
 ---
 # nuttx应用的载入过程（cmake版）
 以apps/examples/helloxx这个应用为例
